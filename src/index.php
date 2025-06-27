@@ -1,31 +1,37 @@
 <?php
+// Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('error_log', __DIR__ . '/php_error.log');
 ini_set('log_errors', 1);
 
+// Include helper functions (email, verification, registration, etc.)
 include 'functions.php';
 
-$showVerification = false;
+// Initialize state variables for UI and logic
+$showVerification = false; // Whether to show the verification code form
 $emailValue = '';
 $message = '';
-$isSubscribed = false;
+$isSubscribed = false; // Whether the user has successfully subscribed
 
+// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Step 1: User submits email for subscription (no verification code yet)
     if (isset($_POST['email']) && !isset($_POST['verification_code'])) {
         $email = trim($_POST['email']);
-        $code = generateVerificationCode();
-        sendVerificationEmail($email, $code);
-        $showVerification = true;
-        $emailValue = htmlspecialchars($email);
+        $code = generateVerificationCode(); // Generate a 6-digit code
+        sendVerificationEmail($email, $code); // Email the code to user
+        $showVerification = true; // Show verification form
+        $emailValue = htmlspecialchars($email); // Pre-fill email in form
         $message = "<div class='success'>Verification code sent to <strong>$email</strong></div>";
     }
 
+    // Step 2: User submits email and verification code
     if (isset($_POST['email'], $_POST['verification_code'])) {
         $email = trim($_POST['email']);
         $code = trim($_POST['verification_code']);
-        if (verifyCode($email, $code)) {
-            if (registerEmail($email)) {
+        if (verifyCode($email, $code)) { // Check if code is valid
+            if (registerEmail($email)) { // Register email if verified
                 $isSubscribed = true;
                 $message = "<div class='success'>Successfully subscribed to XKCD Comics! Your first comic will arrive soon.</div>";
                 $showVerification = false;
@@ -278,6 +284,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <?php if ($isSubscribed): ?>
+            <!-- Show success message and option to subscribe another email -->
             <div class="subscription-status">
                 <h2>🎉 Successfully Subscribed!</h2>
                 <p>We've just sent your first XKCD comic to your email.</p>
@@ -296,6 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h1>XKCD Comic Subscription</h1>
             
             <?php if (!$showVerification): ?>
+            <!-- Welcome message for new users -->
             <div class="welcome-message">
                 <p>Subscribe to receive a random XKCD comic in your inbox every day!</p>
                 <p>You'll get your first comic immediately after subscription.</p>
@@ -303,10 +311,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             
             <?php if ($message): ?>
+                <!-- Show success or error messages -->
                 <?php echo $message; ?>
             <?php endif; ?>
 
             <?php if (!$showVerification): ?>
+                <!-- Step 1: Email input form -->
                 <form method="POST">
                     <div class="form-group">
                         <input type="email" name="email" required 
@@ -316,6 +326,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 </form>
             <?php else: ?>
+                <!-- Step 2: Verification code input form -->
                 <form method="POST">
                     <div class="form-group">
                         <input type="hidden" name="email" value="<?php echo $emailValue; ?>">

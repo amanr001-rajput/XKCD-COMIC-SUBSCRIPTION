@@ -1,22 +1,27 @@
 <?php
+// Unsubscribe page: Handles email unsubscription with verification
 require_once 'functions.php';
 
+// Get email from query string if present
 $email = isset($_GET['email']) ? trim($_GET['email']) : '';
 $message = '';
 
+// Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Step 1: User submits email to unsubscribe (no verification code yet)
     if (isset($_POST['unsubscribe_email']) && !isset($_POST['verification_code'])) {
         $email = trim($_POST['unsubscribe_email']);
-        $code = generateVerificationCode();
-        sendVerificationEmail($email, $code, true);
+        $code = generateVerificationCode(); // Generate a 6-digit code
+        sendVerificationEmail($email, $code, true); // Send code for unsubscription
         $message = "<div class='message'>Verification code sent to <strong>$email</strong></div>";
     }
 
+    // Step 2: User submits email and verification code
     if (isset($_POST['unsubscribe_email'], $_POST['verification_code'])) {
         $email = trim($_POST['unsubscribe_email']);
         $code = trim($_POST['verification_code']);
-        if (verifyCode($email, $code)) {
-            unsubscribeEmail($email);
+        if (verifyCode($email, $code)) { // Check if code is valid
+            unsubscribeEmail($email); // Remove email from subscription list
             $message = "<div class='success'>Successfully unsubscribed from XKCD Comics.</div>";
         } else {
             $message = "<div class='error'>Invalid verification code. Please try again.</div>";
@@ -125,9 +130,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>Unsubscribe from XKCD Comics</h1>
 
         <?php if ($message): ?>
+            <!-- Show success or error messages -->
             <?php echo $message; ?>
         <?php endif; ?>
 
+        <!-- Step 1: Email input form for unsubscription -->
         <form method="POST">
             <div class="form-group">
                 <input type="email" name="unsubscribe_email" required 
@@ -137,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
+        <!-- Step 2: Verification code input form -->
         <form method="POST">
             <div class="form-group">
                 <input type="hidden" name="unsubscribe_email" 
