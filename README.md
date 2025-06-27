@@ -95,17 +95,11 @@ This is a PHP web application that lets users subscribe to receive daily XKCD co
 - **Clear old verification files** (e.g., `*.code` files).
 - **Review error logs** for PHP or cron errors.
 
-## 8. Requirements Met
-- ✅ Email verification system (double opt-in)
-- ✅ No hardcoded verification codes
-- ✅ File-based storage (no database)
-- ✅ HTML-formatted emails
-- ✅ Working cron implementation
-- ✅ Unsubscribe functionality
-- ✅ All files in `src/` directory
+ 
 
-## 9. Author & Support
-- Add your name and contact info as needed.
+## 8. Author & Support
+ AMAN RAJPUT 
+aman2207753@gmail.com
 
 **Summary:**
 This project is a secure, file-based PHP system for XKCD comic email subscriptions. It uses only flat files, no database, and all emails are HTML with an unsubscribe button. The code is organized, commented, and meets all assignment requirements. The README provides all steps for setup, testing, and troubleshooting.
