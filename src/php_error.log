@@ -1,0 +1,22 @@
+[19-Jun-2025 09:17:02 UTC] Attempting to send email to: aman444@gmail.com
+[19-Jun-2025 09:17:02 UTC] SMTP <- 220 AMANs-MacBook-Air.local Mailpit ESMTP Service ready
+
+[19-Jun-2025 09:17:02 UTC] SMTP -> HELO localhost
+[19-Jun-2025 09:17:02 UTC] SMTP <- 250 AMANs-MacBook-Air.local greets localhost
+
+[19-Jun-2025 09:17:02 UTC] SMTP -> MAIL FROM:<no-reply@example.com>
+[19-Jun-2025 09:17:02 UTC] SMTP <- 250 2.1.0 Ok
+
+[19-Jun-2025 09:17:02 UTC] SMTP -> RCPT TO:<aman444@gmail.com>
+[19-Jun-2025 09:17:02 UTC] SMTP <- 250 2.1.5 Ok
+
+[19-Jun-2025 09:17:02 UTC] SMTP -> DATA
+[19-Jun-2025 09:17:02 UTC] SMTP <- 354 Start mail input; end with <CR><LF>.<CR><LF>
+
+[19-Jun-2025 09:17:02 UTC] SMTP <- 250 2.0.0 Ok: queued as JSsHjBcsNWLV3JPd38rT5E
+
+[19-Jun-2025 09:17:02 UTC] SMTP -> QUIT
+[19-Jun-2025 09:17:02 UTC] SMTP <- 221 2.0.0 AMANs-MacBook-Air.local Mailpit ESMTP Service closing transmission channel
+
+[19-Jun-2025 09:17:02 UTC] Successfully sent email to: aman444@gmail.com
+[19-Jun-2025 09:17:10 UTC] Successfully registered new email: aman444@gmail.com
